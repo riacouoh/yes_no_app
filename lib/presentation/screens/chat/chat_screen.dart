@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yes_no_app/domain/entities/message.dart';
 import 'package:yes_no_app/presentation/providers/chat_provider.dart';
 import 'package:yes_no_app/presentation/widgets/chat/her_message_bubble.dart';
 import 'package:yes_no_app/presentation/widgets/chat/my_message_bubble.dart';
@@ -31,13 +32,8 @@ class _ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
       //le pide que esté pendiente de cambios
-
       final chatProvider = context.watch<ChatProvider>();
-
-
-
 
     return SafeArea(
       child: Padding(
@@ -47,10 +43,18 @@ class _ChatView extends StatelessWidget {
             Expanded(child: ListView.builder(
               itemCount: chatProvider.messageList.length,
               itemBuilder: (context, index) {
-                return (index % 2 == 0)
+
+                //instancia que sabrá whose is the message
+                final message = chatProvider.messageList[index];
+
+                //residuo = 0 means it's hers
+                //return (index % 2 == 0)
+
+                return (message.fromWho == FromWho.notMe)
                 ? const HerMessageBubble()
-                : const MyMessageBubble();
-            },)
+                : MyMessageBubble(message: message);
+
+              },)
             ),
           
           // caja de texto
