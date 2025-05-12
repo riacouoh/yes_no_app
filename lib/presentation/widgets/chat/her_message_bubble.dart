@@ -26,7 +26,7 @@ class HerMessageBubble extends StatelessWidget {
         //Image:
         _ImageBubble(),
 
-        SizedBox(height: 10)
+        SizedBox(height: 5)
       ],
     );
   }
