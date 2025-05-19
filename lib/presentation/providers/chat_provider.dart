@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/config/helpers/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entities/message.dart';
 
 class ChatProvider extends ChangeNotifier {
 
   //controlador que maneja la posición del scroll
   final ScrollController chatScrollController = ScrollController();
+  final getYesNoAnswer = GetYesNoAnswer();
 
-  List<Message> messageList = [
-
-    Message(text: "Hola :]", fromWho: FromWho.me),
-    Message(text: "Holiiiii <3 Hiiiii", fromWho: FromWho.notMe),
-    Message (text: "How's it goin'?", fromWho: FromWho.me),
-    Message (text: "U okay?", fromWho: FromWho.me),
-    Message (text: "How's it goin'?", fromWho: FromWho.notMe)
-
-  ];
+  List<Message> messageList = [];
 
   Future <void> sendMessage (String text) async {
 
@@ -24,6 +18,12 @@ class ChatProvider extends ChangeNotifier {
 
     //agregar un nuevo msg a la list
     messageList.add(newMessage);
+
+
+    //DETECTAR si el usuario hizo una pregunta
+    if (text.endsWith("?")) {
+      herReply();
+    }
 
     int l = messageList.length;
 
@@ -45,6 +45,18 @@ class ChatProvider extends ChangeNotifier {
       duration: Duration(milliseconds: 300), 
       //rebote al final de la animación
       curve: Curves.easeOut);
+  }
+
+  //crear respiuesta de ella
+  Future<void> herReply () async {
+    //obtener respuesta
+    final herMessage = await getYesNoAnswer.getAnswer();
+
+    //añadimos mensaje de ella a la lista de mensajes
+    messageList.add(herMessage);
+
+    notifyListeners();
+    moveScrollToBottom();
   }
 
 }
