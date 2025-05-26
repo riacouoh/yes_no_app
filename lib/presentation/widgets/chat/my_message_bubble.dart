@@ -22,7 +22,12 @@ class MyMessageBubble extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-            child: Text(message.text, style: TextStyle(color: Colors.white),),
+            child: Column(
+              children: [
+                Text(message.text, style: TextStyle(color: Colors.white, fontSize: 16),),
+                Text(message.date, style: TextStyle(color: Colors.pink[100], fontSize: 14),)
+              ],
+            ),
           ),
         ),
         SizedBox(height: 5)

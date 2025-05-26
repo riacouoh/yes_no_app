@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:yes_no_app/config/helpers/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entities/message.dart';
 
@@ -9,12 +10,16 @@ class ChatProvider extends ChangeNotifier {
   final getYesNoAnswer = GetYesNoAnswer();
 
   List<Message> messageList = [];
+  
+  DateTime nowt = DateTime.now();
 
   Future <void> sendMessage (String text) async {
 
+    String formattedTime = DateFormat.Hms().format(nowt);
+
     if (text.trim().isEmpty) return;
 
-    final newMessage = Message (text : text.trim(), fromWho: FromWho.me);
+    final newMessage = Message (text : text.trim(), fromWho: FromWho.me, date: formattedTime);
 
     //agregar un nuevo msg a la list
     messageList.add(newMessage);
